@@ -20,10 +20,15 @@
   var isFBApp = /FBAN|FBAV|Instagram|Line\//i.test(ua);
 
   if (isFBApp) {
-    document.getElementById('msg').innerHTML =
-      '<p>กรุณาเปิดในเบราว์เซอร์เพื่อลงทะเบียน</p>' +
-      '<a class="btn" href="' + TARGET + '" target="_blank" rel="noopener">เปิดในเบราว์เซอร์</a>' +
-      '<p style="font-size:13px;color:#888;margin-top:16px;">หากกดแล้วไม่เปิด กรุณากดจุดสามจุดมุมขวาบน แล้วเลือก "เปิดใน Chrome/Safari"</p>';
+    if (/Android/i.test(ua)) {
+      var target = TARGET.replace(/^https?:\/\//, '');
+      window.location.href = 'intent://' + target + '#Intent;scheme=https;package=com.android.chrome;end';
+    } else {
+      document.getElementById('msg').innerHTML =
+        '<p>กรุณากดปุ่มด้านล่างเพื่อเปิดในเบราว์เซอร์เพื่อลงทะเบียน</p>' +
+        '<a class="btn" href="' + TARGET + '" target="_blank" rel="noopener">เปิดในเบราว์เซอร์ Safari</a>' +
+        '<p style="font-size:13px;color:#888;margin-top:16px;">หากกดแล้วไม่เปิด กรุณากดจุดสามจุด (•••) มุมขวาบน แล้วเลือก "เปิดใน Safari"</p>';
+    }
   } else {
     window.location.replace(TARGET);
   }
