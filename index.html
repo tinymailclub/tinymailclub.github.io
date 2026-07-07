@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tiny Mail Club</title>
 <style>
-  body { font-family: -apple-system, sans-serif; text-align: center; padding: 40px 20px; }
-  a.btn { display:inline-block; margin-top:20px; background:#8a9a5b; color:#fff; padding:14px 24px;
-          border-radius:12px; text-decoration:none; font-weight:bold; }
+  body { font-family: -apple-system, sans-serif; text-align: center; padding: 40px 20px; margin:0; }
+  a.btn {
+    display:inline-block; margin-top:20px; background:#8a9a5b; color:#fff;
+    padding:14px 24px; border-radius:12px; text-decoration:none; font-weight:bold; font-size:16px;
+  }
+  p.hint { font-size:13px; color:#888; margin-top:16px; line-height:1.6; }
 </style>
 </head>
 <body>
@@ -17,19 +20,20 @@
 <script>
   var TARGET = "https://script.google.com/macros/s/AKfycbzq1P5oh96rtqhgZgtYy7G6q1enl2SXofJxNTqUhejDYvvOIaTYBA8s_7HAVnrqCtSUQw/exec";
   var ua = navigator.userAgent || navigator.vendor || window.opera;
-  var isFBApp = /FBAN|FBAV|Instagram|Line\//i.test(ua);
 
-  if (isFBApp) {
-    if (/Android/i.test(ua)) {
-      var target = TARGET.replace(/^https?:\/\//, '');
-      window.location.href = 'intent://' + target + '#Intent;scheme=https;package=com.android.chrome;end';
-    } else {
-      document.getElementById('msg').innerHTML =
-        '<p>กรุณากดปุ่มด้านล่างเพื่อเปิดในเบราว์เซอร์เพื่อลงทะเบียน</p>' +
-        '<a class="btn" href="' + TARGET + '" target="_blank" rel="noopener">เปิดในเบราว์เซอร์ Safari</a>' +
-        '<p style="font-size:13px;color:#888;margin-top:16px;">หากกดแล้วไม่เปิด กรุณากดจุดสามจุด (•••) มุมขวาบน แล้วเลือก "เปิดใน Safari"</p>';
-    }
+  var isFBApp   = /FBAN|FBAV|Instagram|Line\//i.test(ua);
+  var isIOS     = /iPhone|iPad|iPod/i.test(ua);
+  var isAndroid = /Android/i.test(ua);
+
+  if (isFBApp && isIOS) {
+    // iOS ใน Facebook/Instagram WebView: ไม่สามารถบังคับเปิด Safari อัตโนมัติได้
+    // ต้องให้ผู้ใช้กดปุ่มเอง
+    document.getElementById('msg').innerHTML =
+      '<p>กรุณากดปุ่มด้านล่างเพื่อเปิดในเบราว์เซอร์เพื่อลงทะเบียน</p>' +
+      '<a class="btn" href="' + TARGET + '" target="_blank" rel="noopener">เปิดในเบราว์เซอร์ Safari</a>' +
+      '<p class="hint">หากกดแล้วไม่เปิด กรุณากดจุดสามจุด (•••) มุมขวาบน แล้วเลือก "เปิดใน Safari"</p>';
   } else {
+    // Android (ทั้งใน Facebook WebView และเบราว์เซอร์ปกติ) และ iOS นอก Facebook: ใช้งานได้ปกติ
     window.location.replace(TARGET);
   }
 </script>
