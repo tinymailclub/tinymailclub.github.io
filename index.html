@@ -4,13 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tiny Mail Club</title>
+<style>
+  body { font-family: -apple-system, sans-serif; text-align: center; padding: 40px 20px; }
+  a.btn { display:inline-block; margin-top:20px; background:#8a9a5b; color:#fff; padding:14px 24px;
+          border-radius:12px; text-decoration:none; font-weight:bold; }
+</style>
 </head>
 <body>
+<div id="msg">
+  <p>กำลังโหลด...</p>
+</div>
 <script>
-  window.location.replace("https://script.google.com/macros/s/AKfycbzq1P5oh96rtqhgZgtYy7G6q1enl2SXofJxNTqUhejDYvvOIaTYBA8s_7HAVnrqCtSUQw/exec");
+  var TARGET = "https://script.google.com/macros/s/AKfycbzq1P5oh96rtqhgZgtYy7G6q1enl2SXofJxNTqUhejDYvvOIaTYBA8s_7HAVnrqCtSUQw/exec";
+  var ua = navigator.userAgent || navigator.vendor || window.opera;
+  var isFBApp = /FBAN|FBAV|Instagram|Line\//i.test(ua);
+
+  if (isFBApp) {
+    document.getElementById('msg').innerHTML =
+      '<p>กรุณาเปิดในเบราว์เซอร์เพื่อลงทะเบียน</p>' +
+      '<a class="btn" href="' + TARGET + '" target="_blank" rel="noopener">เปิดในเบราว์เซอร์</a>' +
+      '<p style="font-size:13px;color:#888;margin-top:16px;">หากกดแล้วไม่เปิด กรุณากดจุดสามจุดมุมขวาบน แล้วเลือก "เปิดใน Chrome/Safari"</p>';
+  } else {
+    window.location.replace(TARGET);
+  }
 </script>
 <noscript>
-  <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbzq1P5oh96rtqhgZgtYy7G6q1enl2SXofJxNTqUhejDYvvOIaTYBA8s_7HAVnrqCtSUQw/exec">
+  <a href="https://script.google.com/macros/s/AKfycbzq1P5oh96rtqhgZgtYy7G6q1enl2SXofJxNTqUhejDYvvOIaTYBA8s_7HAVnrqCtSUQw/exec">คลิกที่นี่เพื่อลงทะเบียน</a>
 </noscript>
 </body>
 </html>
